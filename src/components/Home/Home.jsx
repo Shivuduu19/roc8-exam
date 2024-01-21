@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { IoSearch } from "react-icons/io5";
+
+import { Search } from "./Search";
+import { ResultsPage } from "../Results/Results";
 
 export const Home = () => {
+  const [searchValue, setSearchValue] = useState("");
+  const [showHome, setShowHome] = useState(true);
+  const handleSearchValue = (e) => {
+    setSearchValue(e.target.value);
+  };
+  const handleShowHome = () => {
+    setShowHome(false);
+  };
+
   return (
     <HomeWrapper>
       <Container>
@@ -12,26 +23,34 @@ export const Home = () => {
           <Button borders="green">create Account</Button>
         </LoginContainer>
       </Container>
-      <Desc>
-        <DiscContainer>Discover over 2,000,000 free stock Images</DiscContainer>
-        <SearchContainer>
-          <StyledSearch />
-          <SearchInput type="search" placeholder="Search" />
-          <Button colors="#eaedee" borders="#7484bb">
-            GO!
-          </Button>
-        </SearchContainer>
-      </Desc>
+      {showHome ? (
+        <Desc>
+          <DiscContainer>
+            Discover over 2,000,000 free stock Images
+          </DiscContainer>
+          <Search
+            searchValue={searchValue}
+            handleSearchValue={handleSearchValue}
+            placeHolder="Search"
+            handleShowHome={handleShowHome}
+          />
+        </Desc>
+      ) : (
+        <ResultsPage
+          searchValue={searchValue}
+          handleSearchValue={handleSearchValue}
+        />
+      )}
     </HomeWrapper>
   );
 };
 const HomeWrapper = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   position: absolute;
   top: 0;
   background-image: url("./public/mountains-190055_1280.jpg");
-  /* background-attachment: fixed; */
+  background-attachment: fixed;
 `;
 const Container = styled.div`
   display: flex;
@@ -41,6 +60,7 @@ const Container = styled.div`
   margin: 1rem 2rem;
   position: relative;
   border-radius: 15px;
+  box-shadow: 5px red;
   z-index: 1;
   &:hover {
     outline: 3px solid #2525e0;
@@ -58,6 +78,9 @@ const Button = styled.button`
   border: 3px solid ${({ borders }) => borders};
   border-radius: 15px;
   padding: 10px;
+  &:active {
+    transform: scale(1.1);
+  }
   &:hover {
     color: #c63030;
   }
@@ -70,30 +93,4 @@ const Desc = styled.div`
 const DiscContainer = styled.div`
   font-size: 50px;
   text-align: center;
-`;
-const SearchContainer = styled.div`
-  background-color: transparent;
-  backdrop-filter: blur(5px);
-  display: flex;
-  padding: 10px;
-  margin-top: 3rem;
-  border: 2px solid whitesmoke;
-  border-radius: 15px;
-`;
-const SearchInput = styled.input`
-  background: transparent;
-  border: none;
-  border-left: 1px solid white;
-  padding: 1rem;
-
-  width: 90%;
-  &::placeholder {
-    color: red;
-    font-size: 30px;
-  }
-`;
-const StyledSearch = styled(IoSearch)`
-  margin: auto;
-  width: 10%;
-  font-size: 50px;
 `;
