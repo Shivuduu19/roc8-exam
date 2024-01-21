@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-export const ResultImageContainer = ({ src }) => {
+export const ResultImageContainer = ({ src, onClick }) => {
   return (
     <ImageContainer>
-      <Image src={src} />
+      <Image src={src} onClick={onClick} />
     </ImageContainer>
   );
 };
